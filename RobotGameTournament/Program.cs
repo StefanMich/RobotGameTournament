@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RobotGameTournament.Control;
+using RobotGameTournament.Model;
 
 namespace RobotGameTournament
 {
@@ -10,17 +13,23 @@ namespace RobotGameTournament
     {
         static void Main(string[] args)
         {
-            Robot r1 = new Robot(@"C:\Users\Stefan\Dropbox\Programmering\Python\RobotGame\ruthlessKiller.py");
-            Robot r2 = new Robot(@"C:\Users\Stefan\Dropbox\Programmering\Python\RobotGame\ruthlessKiller.py");
-            Robot r3 = new Robot(@"C:\Users\Stefan\Dropbox\Programmering\Python\RobotGame\ruthlessKiller.py");
-            Robot r4 = new Robot(@"C:\Users\Stefan\Dropbox\Programmering\Python\RobotGame\ruthlessKiller.py");
+            Console.SetWindowSize(150, 50);
 
-            List<Robot> robots = new List<Robot>() { r1, r2, r3, r4 };
+            List<Robot> robots = LoadRobots.GetRobots(args[0]);
 
-            RoundRobinTournament t = new RoundRobinTournament(robots);
-            t.CalculateMatches();
+            RoundRobinTournament t = new RoundRobinTournament(robots, new PrintScoresToConsole());
 
-            RunMatch.Run(t.Matches[0],3,1);
+            t.RunTournament(int.Parse(args[1]));
+
+            t.PrintMatchOverview();
+
+            Console.WriteLine();
+
+            t.PrintScoreBoard();
+
+            Console.ReadKey();
         }
+
+        
     }
 }

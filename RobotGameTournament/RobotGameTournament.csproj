@@ -44,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Control\PrintScores.cs" />
+    <Compile Include="Control\IPrintScores.cs" />
+    <Compile Include="Control\LoadRobots.cs" />
+    <Compile Include="Control\PrintScoresToConsole.cs" />
     <Compile Include="Control\RunMatch.cs" />
     <Compile Include="Model\Match.cs" />
+    <Compile Include="Model\Result.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Robot.cs" />
