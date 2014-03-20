@@ -4,17 +4,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RobotGameTournament.Model;
 
 namespace RobotGameTournament
 {
-
-    public enum Result { Player1, Player2, Draw }
     public static class RunMatch
     {
         static string pythonpath = @"C:\Python27\Python.exe";
         static string rgpath = @"C:\Users\Stefan\Dropbox\Programmering\Python\RobotGame\rgkit\rgkit\run.py";
 
-        public static void Run(Match m,int win, int draw)
+        public static void Run(Match m, int win, int draw)
         {
             List<string> output = new List<string>();
 
@@ -23,7 +22,7 @@ namespace RobotGameTournament
                 StartInfo =
                 {
                     FileName = pythonpath,
-                    Arguments = rgpath + " -H " + m.Player1.Name + " " + m.Player2.Name,
+                    Arguments = rgpath + " -H " + m.Player1.Path + " " + m.Player2.Path,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
@@ -35,22 +34,18 @@ namespace RobotGameTournament
                 output.Add(p.StandardOutput.ReadLine());
             }
 
-            //           Process.Start(rgpath, "-H " + r1.Name + " " + r2.Name);
+            m.MatchResult = InterpretResult(output[output.Count-1]);
 
-            Result r = InterpretResult(output[1]);
 
-            switch (r)
+            switch (m.MatchResult.result)
             {
                 case Result.Player1:
-                    m.Winner = m.Player1;
                     m.Player1.Points += win;
                     break;
                 case Result.Player2:
-                    m.Winner = m.Player2;
                     m.Player2.Points += win;
                     break;
                 case Result.Draw:
-                    m.Winner = Robot.Draw();
                     m.Player1.Points += draw;
                     m.Player2.Points += draw;
                     break;
@@ -60,26 +55,28 @@ namespace RobotGameTournament
 
         }
 
-        private static Result InterpretResult(string result)
+        private static MatchResult InterpretResult(string result)
         {
             int comma = result.IndexOf(',');
-            int space = result.IndexOf(' ', comma);
+            int space = result.IndexOf(' ', comma+2);
 
             string firstScore = result.Substring(1, comma - 1);
-            string secondScore = result.Substring(comma + 1, space - 1);
+            string secondScore = result.Substring(comma + 2, space - comma - 3);
 
-
+            Result matchResult;
             int first = int.Parse(firstScore);
             int second = int.Parse(secondScore);
+
 
             int res = first - second;
 
             if (res > 0)
-                return Result.Player1;
+                matchResult = Result.Player1;
             else if (res < 0)
-                return Result.Player2;
-            else return Result.Draw;
+                matchResult = Result.Player2;
+            else matchResult = Result.Draw;
 
+            return new MatchResult(first, second, matchResult);
         }
     }
 }
