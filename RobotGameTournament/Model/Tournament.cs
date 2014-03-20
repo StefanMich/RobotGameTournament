@@ -3,27 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RobotGameTournament.Control;
 
-namespace RobotGameTournament
+namespace RobotGameTournament.Model
 {
     public abstract class Tournament
     {
         protected List<Robot> robots;
 
         List<Match> matches;
+        IPrintScores printer;
 
         public List<Robot> Robots { get { return robots; } }
 
         public List<Match> Matches { get { return matches; } }
 
-        public Tournament()
+        public Tournament(IPrintScores printer)
         {
             robots = new List<Robot>();
+            matches = new List<Match>();
+            this.printer = printer;
         }
 
-        public void CalculateMatches()
+        public void CalculateMatches(int rounds)
         {
-            matches = calculateMatches(robots);
+            for (int i = 0; i < rounds; i++)
+            {
+                matches.AddRange(calculateMatches(robots));
+            }
         }
 
         public void RunMatches()
@@ -33,6 +40,24 @@ namespace RobotGameTournament
                 RunMatch.Run(m,winPoints,drawPoints);
             }
         }
+
+        public void RunTournament(int rounds)
+        {
+            CalculateMatches(rounds);
+
+            RunMatches();
+        }
+
+        public void PrintMatchOverview()
+        {
+            printer.PrintMatchOverview(matches);
+        }
+
+        public void PrintScoreBoard()
+        {
+            printer.PrintScoreBoard(robots);
+        }
+
 
         protected abstract List<Match> calculateMatches(List<Robot> robots);
 

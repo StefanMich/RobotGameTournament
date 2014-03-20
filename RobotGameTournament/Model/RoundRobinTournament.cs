@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RobotGameTournament.Control;
 
-namespace RobotGameTournament
+namespace RobotGameTournament.Model
 {
     public class RoundRobinTournament : Tournament
     {
-        public RoundRobinTournament(List<Robot> robots)
+        public RoundRobinTournament(List<Robot> robots, IPrintScores printer) : base(printer)
         {
             this.robots = robots;
         }
