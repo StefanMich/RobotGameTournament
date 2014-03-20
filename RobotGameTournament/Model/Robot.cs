@@ -4,26 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RobotGameTournament
+namespace RobotGameTournament.Model
 {
-    [System.Diagnostics.DebuggerDisplay("Name: {Name}")]
+    [System.Diagnostics.DebuggerDisplay("Name: {Path}")]
     public class Robot
     {
-        public string Name { get; set; }
+        public string Path { get; set; }
 
-        
-        public int Points { get ;set; }
-
-
-
-        public Robot(string name)
+        public string ShortName
         {
-            Name = name;
+            get
+            {
+                string[] ar = Path.Split('\\');
+                return ar[ar.Length - 1];
+            }
+        }
+        public int Points { get; set; }
+
+
+
+        public Robot(string path)
+        {
+            Path = path;
         }
 
+        public static Robot DrawInstance;
         public static Robot Draw()
         {
-            return new Robot("DRAW");
+            if (DrawInstance == null)
+                DrawInstance = new Robot("DRAW");
+            return DrawInstance;
+        }
+
+        public override string ToString()
+        {
+            return ShortName;
         }
     }
 }
