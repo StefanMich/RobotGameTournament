@@ -44,12 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Match.cs" />
+    <Compile Include="Control\PrintScores.cs" />
+    <Compile Include="Control\RunMatch.cs" />
+    <Compile Include="Model\Match.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Robot.cs" />
-    <Compile Include="RoundRobinTournament.cs" />
-    <Compile Include="Tournament.cs" />
+    <Compile Include="Model\Robot.cs" />
+    <Compile Include="Model\RoundRobinTournament.cs" />
+    <Compile Include="Model\Tournament.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -8,11 +8,13 @@ namespace RobotGameTournament
 {
     public abstract class Tournament
     {
-        List<Robot> robots;
+        protected List<Robot> robots;
 
         List<Match> matches;
 
         public List<Robot> Robots { get { return robots; } }
+
+        public List<Match> Matches { get { return matches; } }
 
         public Tournament()
         {
@@ -24,7 +26,18 @@ namespace RobotGameTournament
             matches = calculateMatches(robots);
         }
 
-        public abstract List<Match> calculateMatches(List<Robot> robots);
+        public void RunMatches()
+        {
+            foreach (Match m in matches)
+            {
+                RunMatch.Run(m,winPoints,drawPoints);
+            }
+        }
+
+        protected abstract List<Match> calculateMatches(List<Robot> robots);
+
+        protected abstract int winPoints{get;}
+        protected abstract int drawPoints { get; }
 
 
     }

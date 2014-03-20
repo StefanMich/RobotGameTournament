@@ -8,18 +8,18 @@ namespace RobotGameTournament
 {
     public class RoundRobinTournament : Tournament
     {
-        public RoundRobinTournament()
+        public RoundRobinTournament(List<Robot> robots)
         {
-            
+            this.robots = robots;
         }
 
-        public override List<Match> calculateMatches(List<Robot> robots)
+        protected override List<Match> calculateMatches(List<Robot> robots)
         {
             List<Match> matches = new List<Match>();
 
-            for (int i = 0; i >= robots.Count - 1; i++)
+            for (int i = 0; i <= robots.Count - 1; i++)
             {
-                for (int j = i; j < robots.Count; j++)
+                for (int j = i+1; j < robots.Count; j++)
                 {
                     matches.Add(new Match(robots[i],robots[j]));   
                 }
@@ -27,6 +27,14 @@ namespace RobotGameTournament
             return matches;
         }
 
+        protected override int winPoints
+        {
+            get { return 3; }
+        }
 
+        protected override int drawPoints
+        {
+            get { return 1; }
+        }
     }
 }
