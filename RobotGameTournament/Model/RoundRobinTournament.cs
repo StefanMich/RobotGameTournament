@@ -9,12 +9,12 @@ namespace RobotGameTournament.Model
 {
     public class RoundRobinTournament : Tournament
     {
-        public RoundRobinTournament(List<Robot> robots, IPrintScores printer) : base(printer)
+        public RoundRobinTournament(List<Robot> robots) 
         {
             this.robots = robots;
         }
 
-        protected override List<Match> calculateMatches(List<Robot> robots)
+        protected List<Match> calculateMatches(List<Robot> robots)
         {
             List<Match> matches = new List<Match>();
 
@@ -26,6 +26,13 @@ namespace RobotGameTournament.Model
                 }
             }
             return matches;
+        }
+
+        public override void RunTournament()
+        {
+            matches =  calculateMatches(robots);
+
+            RunMatches();
         }
 
         protected override int winPoints

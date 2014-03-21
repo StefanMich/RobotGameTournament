@@ -11,55 +11,39 @@ namespace RobotGameTournament.Model
     {
         protected List<Robot> robots;
 
-        List<Match> matches;
-        IPrintScores printer;
-
+        protected List<Match> matches;
+        
         public List<Robot> Robots { get { return robots; } }
 
         public List<Match> Matches { get { return matches; } }
 
-        public Tournament(IPrintScores printer)
+        public Tournament()
         {
             robots = new List<Robot>();
             matches = new List<Match>();
-            this.printer = printer;
         }
 
-        public void CalculateMatches(int rounds)
-        {
-            for (int i = 0; i < rounds; i++)
-            {
-                matches.AddRange(calculateMatches(robots));
-            }
-        }
-
+        
         public void RunMatches()
         {
             foreach (Match m in matches)
             {
-                RunMatch.Run(m,winPoints,drawPoints);
+                RunMatch.Run(m, winPoints, drawPoints);
             }
         }
 
-        public void RunTournament(int rounds)
-        {
-            CalculateMatches(rounds);
+        public abstract void RunTournament();
+        
 
-            RunMatches();
-        }
-
-        public void PrintMatchOverview()
+        public void PrintMatchOverview(IPrintScores printer)
         {
             printer.PrintMatchOverview(matches);
         }
 
-        public void PrintScoreBoard()
+        public void PrintScoreBoard(IPrintScores printer)
         {
             printer.PrintScoreBoard(robots);
         }
-
-
-        protected abstract List<Match> calculateMatches(List<Robot> robots);
 
         protected abstract int winPoints{get;}
         protected abstract int drawPoints { get; }
