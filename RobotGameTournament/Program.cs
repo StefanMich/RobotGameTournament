@@ -17,15 +17,18 @@ namespace RobotGameTournament
 
             List<Robot> robots = LoadRobots.GetRobots(args[0]);
 
-            RoundRobinTournament t = new RoundRobinTournament(robots, new PrintScoresToConsole());
+            RoundRobinTournament t = new RoundRobinTournament(robots);
+            PrintScoresToConsole printer = new PrintScoresToConsole();
 
-            t.RunTournament(int.Parse(args[1]));
-
-            t.PrintMatchOverview();
+            for (int i = 0; i < int.Parse(args[1]); i++)
+			{
+                t.RunTournament();
+                t.PrintMatchOverview(printer);
+			}
 
             Console.WriteLine();
 
-            t.PrintScoreBoard();
+            t.PrintScoreBoard(printer);
 
             Console.ReadKey();
         }

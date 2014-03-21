@@ -11,6 +11,7 @@ namespace RobotGameTournament
     {
         public void PrintScoreBoard(List<Robot> robots)
         {
+            robots.Sort((x,y) => y.Points.CompareTo(x.Points));
             foreach (Robot r in robots)
             {
                 Console.WriteLine(r.ShortName + ": " + r.Points);
